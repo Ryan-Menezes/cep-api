@@ -14,3 +14,7 @@
 */
 
 $router->get('/search/local/{ceps}', 'AddressController@findAdressesByCeps');
+
+$router->get('/', function () use ($router) {
+    return 'Welcome to CEP API';
+});

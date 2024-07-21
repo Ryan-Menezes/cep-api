@@ -26,10 +26,12 @@ abstract class ViaCep
 
     private static function getAddressByCep(string $cep): array|null
     {
-        $response = Http::get("https://viacep.com.br/ws/{$cep}/json/");
+        return Cache::remember($cep, 3600, function () use ($cep) {
+            $response = Http::get("https://viacep.com.br/ws/{$cep}/json/");
 
-        if (!$response->successful() || $response->json('erro')) return null;
+            if (!$response->successful() || $response->json('erro')) return null;
 
-        return $response->json();
+            return $response->json();
+        });
     }
 }
